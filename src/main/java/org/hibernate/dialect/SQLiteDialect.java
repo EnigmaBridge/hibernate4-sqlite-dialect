@@ -9,19 +9,29 @@
  * Based on dialect from net.kinetix package
  *
  * @author Dusan Klinec (ph4r05)
+ *
  */
 package org.hibernate.dialect;
 
+import java.sql.SQLException;
+import java.sql.Types;
+
 import org.hibernate.JDBCException;
-import org.hibernate.dialect.function.*;
+import org.hibernate.dialect.function.AbstractAnsiTrimEmulationFunction;
+import org.hibernate.dialect.function.NoArgSQLFunction;
+import org.hibernate.dialect.function.SQLFunction;
+import org.hibernate.dialect.function.SQLFunctionTemplate;
+import org.hibernate.dialect.function.StandardSQLFunction;
+import org.hibernate.dialect.function.VarArgsSQLFunction;
+import org.hibernate.dialect.pagination.AbstractLimitHandler;
+import org.hibernate.dialect.pagination.LimitHandler;
+import org.hibernate.dialect.pagination.LimitHelper;
+import org.hibernate.engine.spi.RowSelection;
 import org.hibernate.exception.*;
 import org.hibernate.exception.spi.SQLExceptionConversionDelegate;
 import org.hibernate.exception.spi.TemplatedViolatedConstraintNameExtracter;
 import org.hibernate.exception.spi.ViolatedConstraintNameExtracter;
 import org.hibernate.type.StandardBasicTypes;
-
-import java.sql.SQLException;
-import java.sql.Types;
 
 public class SQLiteDialect extends Dialect {
     public SQLiteDialect() {
@@ -103,6 +113,55 @@ public class SQLiteDialect extends Dialect {
       toString();
   }
   */
+
+    // limit/offset support ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private static class SQLiteLimitHandler extends AbstractLimitHandler {
+        /**
+         * Default constructor. SQL query and selection criteria required to allow LIMIT clause pre-processing.
+         *
+         * @param sql       SQL query.
+         * @param selection Selection criteria. {@code null} in case of unlimited number of rows.
+         */
+        public SQLiteLimitHandler(String sql, RowSelection selection) {
+            super(sql, selection);
+        }
+
+        @Override
+        public String getProcessedSql() {
+            if ( LimitHelper.useLimit( this, selection ) ) {
+                // useLimitOffset: whether "offset" is set or not;
+                // if set, use "LIMIT offset, row_count" syntax;
+                // if not, use "LIMIT row_count"
+                final boolean useLimitOffset = LimitHelper.hasFirstRow( selection );
+                return sql + (useLimitOffset ? " limit ? offset ?" : " limit ?");
+            }
+            else {
+                // or return unaltered SQL
+                return sql;
+            }
+        }
+
+        @Override
+        public boolean supportsLimit() {
+            return true;
+        }
+
+        @Override
+        public boolean bindLimitParametersInReverseOrder() {
+            return false;
+        }
+    };
+
+    /**
+     * Build delegate managing LIMIT clause.
+     *
+     * @param sql SQL query.
+     * @param selection Selection criteria. {@code null} in case of unlimited number of rows.
+     * @return LIMIT clause delegate.
+     */
+    public LimitHandler buildLimitHandler(String sql, RowSelection selection) {
+        return new SQLiteLimitHandler( sql, selection );
+    }
 
     @Override
     public String getIdentityColumnString() {
@@ -200,11 +259,9 @@ public class SQLiteDialect extends Dialect {
         return false;
     }
 
-  /*
-  public String getAddColumnString() {
-    return "add column";
-  }
-  */
+    public String getAddColumnString() {
+        return "add column";
+    }
 
     @Override
     public String getForUpdateString() {
