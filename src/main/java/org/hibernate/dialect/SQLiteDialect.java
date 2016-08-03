@@ -312,6 +312,11 @@ public class SQLiteDialect extends Dialect {
         return false;
     }
 
+    public int getInExpressionCountLimit() {
+        // Compile/runtime time option: http://sqlite.org/limits.html#max_variable_number
+        return 1000;
+    }
+
     @Override
     public String getSelectGUIDString() {
         return "select hex(randomblob(16))";
