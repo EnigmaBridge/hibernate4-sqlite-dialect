@@ -10,7 +10,6 @@
  * Inspiration: https://github.com/gwenn/sqlite-dialect
  *
  * @author Dusan Klinec (ph4r05)
- *
  */
 package org.hibernate.dialect;
 
