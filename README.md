@@ -20,3 +20,10 @@ Based on Hibernate 4.3.11.Final.
 compile 'com.enigmabridge:hibernate4-sqlite-dialect:0.1.0'
 ```
 
+## Source
+ Based on Hibernate 5 dialect
+ <https://github.com/gwenn/sqlite-dialect>
+
+## Contributing
+
+Pull requests and bug reports are welcome
