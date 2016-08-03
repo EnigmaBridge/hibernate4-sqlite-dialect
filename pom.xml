@@ -9,6 +9,8 @@
     <version>0.1.0</version>
     <name>Hibernate4 SQLite dialect</name>
     <description>Dialect for SQLite for Hibernate ORM</description>
+    <packaging>jar</packaging>
+    <url>https://github.com/EnigmaBridge/hibernate4-sqlite-dialect</url>
 
     <licenses>
         <license>
