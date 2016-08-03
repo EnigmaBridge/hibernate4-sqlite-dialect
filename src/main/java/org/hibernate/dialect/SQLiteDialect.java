@@ -7,6 +7,7 @@
  *    May you share freely, never taking more than you give.
  *
  * Based on dialect from net.kinetix package
+ * Inspiration: https://github.com/gwenn/sqlite-dialect
  *
  * @author Dusan Klinec (ph4r05)
  *
@@ -26,14 +27,19 @@ import org.hibernate.dialect.function.VarArgsSQLFunction;
 import org.hibernate.dialect.pagination.AbstractLimitHandler;
 import org.hibernate.dialect.pagination.LimitHandler;
 import org.hibernate.dialect.pagination.LimitHelper;
+import org.hibernate.dialect.unique.DefaultUniqueDelegate;
+import org.hibernate.dialect.unique.UniqueDelegate;
 import org.hibernate.engine.spi.RowSelection;
 import org.hibernate.exception.*;
 import org.hibernate.exception.spi.SQLExceptionConversionDelegate;
 import org.hibernate.exception.spi.TemplatedViolatedConstraintNameExtracter;
 import org.hibernate.exception.spi.ViolatedConstraintNameExtracter;
+import org.hibernate.mapping.Column;
 import org.hibernate.type.StandardBasicTypes;
 
 public class SQLiteDialect extends Dialect {
+    private final UniqueDelegate uniqueDelegate;
+
     public SQLiteDialect() {
         registerColumnType(Types.BIT, "boolean");
         registerColumnType(Types.TINYINT, "tinyint");
@@ -93,6 +99,7 @@ public class SQLiteDialect extends Dialect {
                 return new SQLFunctionTemplate(StandardBasicTypes.STRING, "rtrim(?1, ?2)");
             }
         } );
+        uniqueDelegate = new SQLiteUniqueDelegate( this );
     }
 
     @Override
@@ -315,6 +322,20 @@ public class SQLiteDialect extends Dialect {
     public int getInExpressionCountLimit() {
         // Compile/runtime time option: http://sqlite.org/limits.html#max_variable_number
         return 1000;
+    }
+
+    @Override
+    public UniqueDelegate getUniqueDelegate() {
+        return uniqueDelegate;
+    }
+    private static class SQLiteUniqueDelegate extends DefaultUniqueDelegate {
+        public SQLiteUniqueDelegate(Dialect dialect) {
+            super( dialect );
+        }
+        @Override
+        public String getColumnDefinitionUniquenessFragment(Column column) {
+            return " unique";
+        }
     }
 
     @Override
