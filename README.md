@@ -1,6 +1,6 @@
-# SQLite dialect
+# SQLite dialect for Hibernate 4.x
 
-Hibernate 4.x SQLite dialect
+With this dialect the Hibernate can use SQLite database.
 
-With this file Hibernate can use SQLite database.
+Based on Hibernate 4.3.11.Final.
 
