@@ -1,5 +1,7 @@
 # SQLite dialect for Hibernate 4.x
 
+[![Build Status][1]][2]
+
 With this dialect the Hibernate can use SQLite database.
 
 Based on Hibernate 4.3.11.Final.
@@ -27,3 +29,6 @@ compile 'com.enigmabridge:hibernate4-sqlite-dialect:0.1.0'
 ## Contributing
 
 Pull requests and bug reports are welcome
+
+[1]: https://travis-ci.org/EnigmaBridge/hibernate4-sqlite-dialect.svg
+[2]: https://travis-ci.org/EnigmaBridge/hibernate4-sqlite-dialect
