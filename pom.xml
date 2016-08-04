@@ -6,7 +6,7 @@
 
     <groupId>com.enigmabridge</groupId>
     <artifactId>hibernate4-sqlite-dialect</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <name>Hibernate4 SQLite dialect</name>
     <description>Dialect for SQLite for Hibernate ORM</description>
     <packaging>jar</packaging>
