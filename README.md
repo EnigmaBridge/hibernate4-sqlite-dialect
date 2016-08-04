@@ -12,14 +12,14 @@ Based on Hibernate 4.3.11.Final.
 <dependency>
   <groupId>com.enigmabridge</groupId>
   <artifactId>hibernate4-sqlite-dialect</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
 </dependency>
 ```
 
 ## Gradle
 
 ```gradle
-compile 'com.enigmabridge:hibernate4-sqlite-dialect:0.1.0'
+compile 'com.enigmabridge:hibernate4-sqlite-dialect:0.1.1'
 ```
 
 ## Source
