@@ -154,7 +154,7 @@ public class SQLiteDialect extends Dialect {
 
         @Override
         public boolean bindLimitParametersInReverseOrder() {
-            return false;
+            return true;
         }
     };
 
