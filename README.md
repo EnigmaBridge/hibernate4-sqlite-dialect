@@ -38,7 +38,7 @@ hibernate.dialect = com.enigmabridge.hibernate.dialect.SQLiteDialect
 ### Spring boot
 `application.properties`
 ```properties
-spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.SQLiteDialect
+spring.jpa.properties.hibernate.dialect = com.enigmabridge.hibernate.dialect.SQLiteDialect
 ```
 
 ## Contributing
