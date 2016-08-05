@@ -1,4 +1,21 @@
 /*
+ * SQLite dialect for Hibernate 4.x
+ *
+ * Based on the work of {@link https://github.com/gwenn/sqlite-dialect}
+ * Thanks to the original author {@literal @gwenn} for the work and inspiration.
+ *
+ * The source was originally licensed under the {@link http://unlicense.org}
+ * We decided to change it to MIT so it is more legally compatible with other licenses.
+ *
+ * Package name was originally org.hibernate.dialect which was not a good idea so we changed it to package name we own.
+ * (after consultation with {@literal @vlad_mihalcea, @gwenn}. Thanks for discussion).
+ *
+ * @author Dusan Klinec (ph4r05)
+ * @author Gwenn
+ *
+ * Original copyright notice follows.
+ *
+ * ----------------------------------------------------------------
  * The author disclaims copyright to this source code.  In place of
  * a legal notice, here is a blessing:
  *
@@ -6,17 +23,14 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  *
- * Based on dialect from net.kinetix package
- * Inspiration: https://github.com/gwenn/sqlite-dialect
- *
- * @author Dusan Klinec (ph4r05)
  */
-package org.hibernate.dialect;
+package com.enigmabridge.hibernate.dialect;
 
 import java.sql.SQLException;
 import java.sql.Types;
 
 import org.hibernate.JDBCException;
+import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.function.AbstractAnsiTrimEmulationFunction;
 import org.hibernate.dialect.function.NoArgSQLFunction;
 import org.hibernate.dialect.function.SQLFunction;
@@ -300,18 +314,6 @@ public class SQLiteDialect extends Dialect {
     public boolean supportsIfExistsBeforeTableName() {
         return true;
     }
-
-  /*
-  public boolean supportsCascadeDelete() {
-    return true;
-  }
-  */
-
-  /* not case insensitive for unicode characters by default (ICU extension needed)
-  public boolean supportsCaseInsensitiveLike() {
-    return true;
-  }
-  */
 
     @Override
     public boolean supportsTupleDistinctCounts() {
